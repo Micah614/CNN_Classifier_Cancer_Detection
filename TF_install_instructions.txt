@@ -1,0 +1,28 @@
+Here are all the commands, copy pasta to your hearts content:
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3-latest-Linux-x86_64.sh
+
+
+bash Miniconda3-latest-Linux-x86_64.sh
+conda create --name pythontemp python=3.11
+conda activate pythontemp
+pip install -U --user pip numpy wheel packaging requests opt_einsum
+pip install -U --user keras_preprocessing --no-deps
+sudo apt install gcc g++ patchelf
+
+
+git clone https://github.com/tensorflow/tensorflow.git
+cd tensorflow
+python3 configure.py
+cd ..
+sudo mv bazelisk-linux-amd64 /usr/local/bin/bazel
+sudo chmod +x /usr/local/bin/bazel
+cd tensorflow
+sudo bazel build -j 12 --local_ram_resources=8192 --config=opt //tensorflow/tools/pip_package:build_pip_package
+sudo ./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+pip install /tmp/tensorflow_pkg/tensorflow-....whl
+ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /home/jtrev/miniconda3/envs/pythontemp/bin/../lib/libstdc++.so.6
+
+
+
+// instructions to reverse conda initialization on startup.
+conda init --reverse $SHELL
